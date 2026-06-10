@@ -16,6 +16,7 @@
   *{margin:0;padding:0;box-sizing:border-box}
   html,body{height:100%;background:var(--bg);overflow:hidden;font-family:'Poppins',sans-serif;color:var(--text)}
   #deck{height:100vh;width:100vw;position:relative}
+  audio{display:none}
   .slide{
     position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;
     padding:clamp(40px,7vw,140px);opacity:0;transition:opacity .35s ease;
@@ -46,8 +47,7 @@
   .pill-live{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono';font-size:13px;color:var(--green);border:1px solid rgba(34,197,94,.35);background:rgba(34,197,94,.08);border-radius:999px;padding:5px 12px}
   .dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
   .progress{position:fixed;bottom:0;left:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--cyan));transition:width .35s ease;z-index:10}
-  .counter{position:fixed;bottom:22px;right:30px;font-family:'JetBrains Mono';font-size:13px;color:var(--muted2);z-index:10}
-  .hint{position:fixed;bottom:22px;left:30px;font-family:'JetBrains Mono';font-size:12px;color:var(--muted2);z-index:10;opacity:.7}
+  .hint{position:fixed;bottom:64px;left:30px;font-family:'JetBrains Mono';font-size:12px;color:var(--muted2);z-index:10;opacity:.7}
   .mock{margin-top:44px;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:26px 30px;max-width:760px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
   .mock .bar{display:flex;gap:7px;margin-bottom:20px}
   .mock .bar i{width:11px;height:11px;border-radius:50%;display:block}
@@ -84,6 +84,18 @@
   .dots{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:10}
   .dots button{width:9px;height:9px;border-radius:50%;border:none;background:#2A3142;cursor:pointer;padding:0;transition:all .3s ease}
   .dots button.on{background:var(--blue);box-shadow:0 0 10px var(--blue);width:22px;border-radius:6px}
+  /* overlay de inicio */
+  #intro{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:var(--bg);padding:40px;overflow:hidden}
+  #intro.hidden{display:none}
+  #intro h2{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:clamp(40px,8vw,110px);line-height:.98}
+  #playBtn{position:relative;margin-top:46px;display:inline-flex;align-items:center;gap:14px;cursor:pointer;font-family:'Poppins';font-weight:600;font-size:clamp(17px,1.8vw,22px);color:#04121f;background:linear-gradient(90deg,var(--blue),var(--cyan));border:none;border-radius:14px;padding:18px 36px;box-shadow:0 18px 50px rgba(36,168,245,.35);transition:transform .2s ease}
+  #playBtn:hover{transform:translateY(-2px)}
+  #manualLink{position:relative;margin-top:22px;background:none;border:none;color:var(--muted2);font-family:'JetBrains Mono';font-size:13px;cursor:pointer;text-decoration:underline}
+  /* controles */
+  #controls{position:fixed;bottom:16px;left:30px;display:flex;gap:10px;z-index:11}
+  #controls.hidden{display:none}
+  #controls button{width:40px;height:40px;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:border-color .2s ease}
+  #controls button:hover{border-color:var(--blue)}
   @media (prefers-reduced-motion: reduce){
     .slide.active > *{animation:none!important}
     .aura{animation:none!important}
@@ -94,19 +106,21 @@
 <div id="deck">
 
   <!-- 1 PORTADA -->
-  <section class="slide active">
+  <section class="slide active" data-dur="6">
     <div class="grid-bg"></div><div class="aura a1"></div><div class="aura a2"></div>
     <div class="kicker">E-commerce de hardware · gaming</div>
     <h1 class="hero-title">SHARKWARE<br><span class="grad">GAMING</span></h1>
     <div class="tag">De la duda a la compra, en segundos.</div>
+    <audio class="vo" preload="auto" src="audio/slide-01.mp3"></audio>
   </section>
 
   <!-- 2 EL PROBLEMA -->
-  <section class="slide">
+  <section class="slide" data-dur="9">
     <div class="grid-bg"></div><div class="aura a2"></div>
     <div class="kicker">[ 01 ] El problema</div>
     <p class="quote">Tiene el dinero.<br><span class="accent">No sabe qué comprar.</span><br><span class="strike">Se va.</span></p>
     <p class="sub">La falta de conocimiento técnico es la barrera número uno entre un cliente y una venta concretada.</p>
+    <audio class="vo" preload="auto" src="audio/slide-02.mp3"></audio>
   </section>
 
   <!-- CLIP A - CATALOGO -->
@@ -117,10 +131,11 @@
       <video class="clip" src="clip-a.mp4" muted playsinline preload="metadata" controls></video>
     </div>
     <div class="caption"><span class="pill-live"><span class="dot"></span>DEMO EN VIVO</span> Catálogo en tiempo real</div>
+    <audio class="vo" preload="auto" src="audio/slide-03.mp3"></audio>
   </section>
 
   <!-- 3 EL DIFERENCIAL - BUILDER -->
-  <section class="slide">
+  <section class="slide" data-dur="9">
     <div class="grid-bg"></div><div class="aura a1"></div>
     <div class="kicker">[ 02 ] El diferencial · Armador de PCs IA</div>
     <h1 class="big">Le decís para qué.<br><span class="grad">Él te dice qué comprar.</span></h1>
@@ -132,6 +147,7 @@
       <div class="line"><b>Fuente · Gabinete · SSD · Cooler</b><span class="price">$ 405.000</span></div>
       <div class="line"><b style="color:var(--blue)">Presupuesto $2.000.000</b><span class="badge-ok">✓ $ 2.065.000 · +$65.000</span></div>
     </div>
+    <audio class="vo" preload="auto" src="audio/slide-04.mp3"></audio>
   </section>
 
   <!-- CLIP B - BUILDER IA -->
@@ -142,10 +158,11 @@
       <video class="clip" src="clip-b.mp4" muted playsinline preload="metadata" controls></video>
     </div>
     <div class="caption"><span class="pill-live"><span class="dot"></span>DEMO EN VIVO</span> Armador de PCs IA</div>
+    <audio class="vo" preload="auto" src="audio/slide-05.mp3"></audio>
   </section>
 
   <!-- 4 ATENCION 24/7 -->
-  <section class="slide">
+  <section class="slide" data-dur="8">
     <div class="grid-bg"></div><div class="aura a2"></div>
     <div class="kicker">[ 03 ] Atención al cliente</div>
     <h1 class="big">Atención <span class="grad">24/7</span>.<br>Sin equipo de soporte extra.</h1>
@@ -154,6 +171,7 @@
       <div class="chip"><span class="ico">✉️</span> Email IA que responde solo</div>
     </div>
     <p class="sub">De noche, un domingo, un feriado — el cliente recibe una respuesta en segundos.</p>
+    <audio class="vo" preload="auto" src="audio/slide-06.mp3"></audio>
   </section>
 
   <!-- CLIP C - CHATBOT FAQ -->
@@ -164,6 +182,7 @@
       <video class="clip" src="clip-c.mp4" muted playsinline preload="metadata" controls></video>
     </div>
     <div class="caption"><span class="pill-live"><span class="dot"></span>DEMO EN VIVO</span> Chatbot sobre el catálogo</div>
+    <audio class="vo" preload="auto" src="audio/slide-07.mp3"></audio>
   </section>
 
   <!-- CLIP D - EMAIL IA -->
@@ -174,10 +193,11 @@
       <video class="clip" src="clip-d.mp4" muted playsinline preload="metadata" controls></video>
     </div>
     <div class="caption"><span class="pill-live"><span class="dot"></span>DEMO EN VIVO</span> Email IA — respuesta automática</div>
+    <audio class="vo" preload="auto" src="audio/slide-08.mp3"></audio>
   </section>
 
   <!-- 5 COMPRA Y GESTION -->
-  <section class="slide">
+  <section class="slide" data-dur="8">
     <div class="grid-bg"></div><div class="aura a1"></div>
     <div class="kicker">[ 04 ] Compra y gestión</div>
     <h1 class="big">Del carrito al pago.<br><span class="grad">Y el negocio, en control.</span></h1>
@@ -186,6 +206,7 @@
       <div class="chip"><span class="ico">📊</span> Panel admin · stock y métricas</div>
       <div class="chip"><span class="ico">₿</span> Conversor cripto en vivo</div>
     </div>
+    <audio class="vo" preload="auto" src="audio/slide-09.mp3"></audio>
   </section>
 
   <!-- CLIP E - CHECKOUT MERCADOPAGO -->
@@ -196,6 +217,7 @@
       <video class="clip" src="clip-e.mp4" muted playsinline preload="metadata" controls></video>
     </div>
     <div class="caption"><span class="pill-live"><span class="dot"></span>DEMO EN VIVO</span> Pago real con MercadoPago</div>
+    <audio class="vo" preload="auto" src="audio/slide-10.mp3"></audio>
   </section>
 
   <!-- CLIP F - PANEL ADMIN -->
@@ -206,6 +228,7 @@
       <video class="clip" src="clip-f.mp4" muted playsinline preload="metadata" controls></video>
     </div>
     <div class="caption"><span class="pill-live"><span class="dot"></span>DEMO EN VIVO</span> Panel de administración</div>
+    <audio class="vo" preload="auto" src="audio/slide-11.mp3"></audio>
   </section>
 
   <!-- CLIP G - CONVERSOR CRIPTO -->
@@ -216,10 +239,11 @@
       <video class="clip" src="clip-g.mp4" muted playsinline preload="metadata" controls></video>
     </div>
     <div class="caption"><span class="pill-live"><span class="dot"></span>DEMO EN VIVO</span> Conversor cripto en vivo</div>
+    <audio class="vo" preload="auto" src="audio/slide-12.mp3"></audio>
   </section>
 
   <!-- 6 EL IMPACTO -->
-  <section class="slide">
+  <section class="slide" data-dur="9">
     <div class="grid-bg"></div><div class="aura a2"></div>
     <div class="kicker">[ 05 ] El impacto</div>
     <p class="quote">Más clientes orientados<br><span class="accent2">= más ventas concretadas.</span></p>
@@ -228,10 +252,11 @@
       <div class="s"><div class="num">~30s</div><small>de la duda a una build lista</small></div>
       <div class="s"><div class="num">100%</div><small>componentes con stock y precio real</small></div>
     </div>
+    <audio class="vo" preload="auto" src="audio/slide-13.mp3"></audio>
   </section>
 
   <!-- 7 CIERRE -->
-  <section class="slide">
+  <section class="slide" data-dur="8">
     <div class="grid-bg"></div><div class="aura a1"></div><div class="aura a2"></div>
     <div class="kicker">Cierre</div>
     <h1 class="big">No es solo una tienda.<br><span class="grad">Es una plataforma que vende sola.</span></h1>
@@ -239,35 +264,147 @@
       <span><b>Equipo Sharkware</b></span>
       <span>Franco Champane</span><span>Agustín Mondati</span><span>Lucca Goria</span><span>Tomás Lombardo</span>
     </div>
+    <audio class="vo" preload="auto" src="audio/slide-14.mp3"></audio>
   </section>
 
 </div>
 
+<!-- overlay de inicio -->
+<div id="intro">
+  <div class="grid-bg"></div><div class="aura a1"></div><div class="aura a2"></div>
+  <div class="kicker" style="position:relative">Presentación · Sharkware Gaming</div>
+  <h2>SHARKWARE <span class="grad">GAMING</span></h2>
+  <button id="playBtn">▶ Reproducir presentación</button>
+  <button id="manualLink">o navegar manualmente</button>
+</div>
+
+<!-- controles -->
+<div id="controls" class="hidden">
+  <button id="ctrlPlay" title="Reproducir / Pausa (barra espaciadora)">⏸</button>
+  <button id="ctrlMute" title="Silenciar (M)">🔊</button>
+</div>
+
 <div class="progress" id="progress"></div>
 <div class="dots" id="dots"></div>
-<div class="hint">← → para navegar · F pantalla completa</div>
+<div class="hint">← → navegar · espacio play/pausa · F pantalla completa</div>
 
 <script>
   const slides=[...document.querySelectorAll('.slide')];
-  let i=0;
   const dotsWrap=document.getElementById('dots');
+  const progressEl=document.getElementById('progress');
+  const intro=document.getElementById('intro');
+  const controls=document.getElementById('controls');
+  const ctrlPlay=document.getElementById('ctrlPlay');
+  const ctrlMute=document.getElementById('ctrlMute');
+  let i=0, playing=false, muted=false, advCancel=null;
+
   slides.forEach((_,k)=>{const b=document.createElement('button');b.addEventListener('click',()=>show(k));dotsWrap.appendChild(b);});
   const dots=[...dotsWrap.children];
+
+  function stopMedia(){
+    slides.forEach(s=>{
+      const v=s.querySelector('video'); if(v){v.pause();v.currentTime=0;}
+      const a=s.querySelector('audio'); if(a){a.pause();a.currentTime=0;}
+    });
+  }
+  function clearAdv(){ if(advCancel){advCancel();advCancel=null;} }
+
+  function armAdvance(s,v,a){
+    clearAdv();
+    if(!playing) return;
+    const parts=[];
+    if(v) parts.push(v);
+    const useAudio = a && a.getAttribute('src') && a.dataset.dead!=='1' && !a.error;
+    if(useAudio) parts.push(a);
+    let remaining=parts.length, fired=false, fallbackT=null, safetyT=null;
+    const handlers=[];
+    const cleanup=()=>{
+      handlers.forEach(([m,fn])=>m.removeEventListener('ended',fn));
+      if(useAudio) a.removeEventListener('error',onErr);
+      if(fallbackT) clearTimeout(fallbackT);
+      if(safetyT) clearTimeout(safetyT);
+    };
+    const fire=()=>{ if(fired) return; fired=true; cleanup(); next(); };
+    parts.forEach(m=>{ const fn=()=>{ if(--remaining<=0) fire(); }; handlers.push([m,fn]); m.addEventListener('ended',fn); });
+    function onErr(){ a.dataset.dead='1'; if(--remaining<=0){ fallbackT=setTimeout(fire,(parseFloat(s.dataset.dur||'7'))*1000); } }
+    if(useAudio) a.addEventListener('error',onErr);
+    if(parts.length===0){ fallbackT=setTimeout(fire,(parseFloat(s.dataset.dur||'7'))*1000); }
+    safetyT=setTimeout(fire,300000);
+    advCancel=cleanup;
+  }
+
   function show(n){
     i=Math.max(0,Math.min(slides.length-1,n));
-    slides.forEach(s=>{const v=s.querySelector('video');if(v){v.pause();v.currentTime=0;}});
+    clearAdv();
+    stopMedia();
     slides.forEach((s,k)=>s.classList.toggle('active',k===i));
-    const av=slides[i].querySelector('video');if(av)av.play().catch(()=>{});
     dots.forEach((d,k)=>d.classList.toggle('on',k===i));
-    document.getElementById('progress').style.width=((i+1)/slides.length*100)+'%';
+    progressEl.style.width=((i+1)/slides.length*100)+'%';
+    const s=slides[i], v=s.querySelector('video'), a=s.querySelector('audio');
+    if(v) v.play().catch(()=>{});
+    if(playing){
+      if(a && a.getAttribute('src')){ a.muted=muted; a.play().catch(()=>{}); }
+      armAdvance(s,v,a);
+    }
   }
+
+  function next(){ if(i<slides.length-1) show(i+1); else { playing=false; updateCtrl(); } }
+
+  function startShow(){
+    intro.classList.add('hidden');
+    controls.classList.remove('hidden');
+    playing=true; updateCtrl();
+    show(0);
+  }
+  function goManual(){
+    intro.classList.add('hidden');
+    controls.classList.remove('hidden');
+    playing=false; updateCtrl();
+    show(0);
+  }
+  function togglePlay(){
+    playing=!playing;
+    const s=slides[i], v=s.querySelector('video'), a=s.querySelector('audio');
+    if(playing){
+      if(v) v.play().catch(()=>{});
+      if(a && a.getAttribute('src')){ a.muted=muted; a.play().catch(()=>{}); }
+      armAdvance(s,v,a);
+    } else {
+      clearAdv();
+      if(v) v.pause();
+      if(a) a.pause();
+    }
+    updateCtrl();
+  }
+  function toggleMute(){
+    muted=!muted;
+    slides.forEach(s=>{const a=s.querySelector('audio');if(a)a.muted=muted;});
+    updateCtrl();
+  }
+  function updateCtrl(){
+    ctrlPlay.textContent = playing ? '⏸' : '▶';
+    ctrlMute.textContent = muted ? '🔇' : '🔊';
+  }
+
+  document.getElementById('playBtn').addEventListener('click',startShow);
+  document.getElementById('manualLink').addEventListener('click',goManual);
+  ctrlPlay.addEventListener('click',togglePlay);
+  ctrlMute.addEventListener('click',toggleMute);
+
   document.addEventListener('keydown',e=>{
-    if(['ArrowRight','ArrowDown',' ','PageDown'].includes(e.key)){e.preventDefault();show(i+1);}
+    if(e.key===' '){ e.preventDefault(); if(!intro.classList.contains('hidden')) startShow(); else togglePlay(); return; }
+    if(['ArrowRight','ArrowDown','PageDown'].includes(e.key)){e.preventDefault();show(i+1);}
     else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();show(i-1);}
     else if(e.key==='Home'){show(0);}else if(e.key==='End'){show(slides.length-1);}
     else if(e.key.toLowerCase()==='f'){const d=document.documentElement;document.fullscreenElement?document.exitFullscreen():d.requestFullscreen();}
+    else if(e.key.toLowerCase()==='m'){toggleMute();}
   });
-  document.addEventListener('click',e=>{if(e.target.closest('video'))return;if(e.clientX>window.innerWidth*0.5)show(i+1);else show(i-1);});
+  document.addEventListener('click',e=>{
+    if(!intro.classList.contains('hidden')) return;
+    if(e.target.closest('video')||e.target.closest('#controls')) return;
+    if(e.clientX>window.innerWidth*0.5)show(i+1);else show(i-1);
+  });
+
   show(0);
 </script>
 </body>
