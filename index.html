@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sharkware Gaming — Presentación</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Rajdhani:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0A0C14; --bg2:#070B16; --card:#0E1424; --border:#1B2333;
+    --text:#F5F7FA; --muted:#AAB3C5; --muted2:#8890A4;
+    --blue:#24A8F5; --cyan:#00C8FF; --green:#22C55E; --amber:#F59E0B; --red:#EF4444;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;background:var(--bg);overflow:hidden;font-family:'Poppins',sans-serif;color:var(--text)}
+  #deck{height:100vh;width:100vw;position:relative}
+  .slide{
+    position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;
+    padding:clamp(40px,7vw,140px);opacity:0;transition:opacity .35s ease;
+  }
+  .slide.active{display:flex;opacity:1}
+  .grid-bg{position:absolute;inset:0;pointer-events:none;
+    background-image:linear-gradient(rgba(36,168,245,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(36,168,245,.05) 1px,transparent 1px);
+    background-size:48px 48px;mask-image:radial-gradient(ellipse 80% 70% at 50% 45%,#000 30%,transparent 80%);}
+  .aura{position:absolute;border-radius:50%;filter:blur(120px);pointer-events:none;opacity:.5}
+  .aura.a1{width:600px;height:600px;background:radial-gradient(circle,#0D1A40,transparent 70%);top:-200px;right:-150px}
+  .aura.a2{width:500px;height:500px;background:radial-gradient(circle,#071530,transparent 70%);bottom:-180px;left:-120px}
+  .kicker{font-family:'JetBrains Mono',monospace;font-size:clamp(11px,1.2vw,15px);letter-spacing:.25em;color:var(--blue);text-transform:uppercase;margin-bottom:24px}
+  h1{font-family:'Rajdhani',sans-serif;font-weight:700;line-height:.98;letter-spacing:-.01em}
+  .hero-title{font-size:clamp(48px,9vw,128px)}
+  .big{font-size:clamp(36px,6.5vw,92px)}
+  .grad{background:linear-gradient(90deg,var(--blue),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .tag{font-family:'Poppins';font-weight:500;color:var(--muted);font-size:clamp(18px,2.4vw,34px);margin-top:28px}
+  .sub{color:var(--muted);font-size:clamp(15px,1.6vw,22px);margin-top:18px;max-width:900px;line-height:1.5}
+  .row{display:flex;gap:28px;flex-wrap:wrap;margin-top:48px}
+  .chip{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px 26px;font-weight:500;font-size:clamp(15px,1.5vw,20px)}
+  .chip .ico{font-size:26px}
+  .quote{font-family:'Rajdhani';font-weight:600;font-size:clamp(30px,5vw,72px);line-height:1.05;max-width:1100px}
+  .accent{color:var(--blue)}
+  .accent2{color:var(--cyan)}
+  .strike{color:var(--muted2)}
+  .team{margin-top:56px;display:flex;gap:40px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;color:var(--muted);font-size:clamp(13px,1.3vw,18px)}
+  .team b{color:var(--text);font-weight:500}
+  .pill-live{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono';font-size:13px;color:var(--green);border:1px solid rgba(34,197,94,.35);background:rgba(34,197,94,.08);border-radius:999px;padding:5px 12px}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
+  .progress{position:fixed;bottom:0;left:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--cyan));transition:width .35s ease;z-index:10}
+  .counter{position:fixed;bottom:22px;right:30px;font-family:'JetBrains Mono';font-size:13px;color:var(--muted2);z-index:10}
+  .hint{position:fixed;bottom:22px;left:30px;font-family:'JetBrains Mono';font-size:12px;color:var(--muted2);z-index:10;opacity:.7}
+  .mock{margin-top:44px;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:26px 30px;max-width:760px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+  .mock .bar{display:flex;gap:7px;margin-bottom:20px}
+  .mock .bar i{width:11px;height:11px;border-radius:50%;display:block}
+  .mock .line{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--border);font-size:clamp(13px,1.3vw,17px)}
+  .mock .line:last-child{border-bottom:none}
+  .mock .line b{font-weight:600}
+  .mock .price{font-family:'JetBrains Mono';color:var(--muted)}
+  .mock .badge-ok{color:var(--green);font-size:13px;border:1px solid rgba(34,197,94,.3);border-radius:999px;padding:3px 10px}
+  .num{font-family:'Rajdhani';font-weight:700;color:var(--blue);font-size:clamp(44px,7vw,96px);line-height:1}
+  .stats{display:flex;gap:60px;flex-wrap:wrap;margin-top:44px}
+  .stats .s small{display:block;color:var(--muted);font-size:clamp(13px,1.3vw,18px);margin-top:8px;max-width:240px}
+  .video-slide{align-items:center;justify-content:center;gap:20px}
+  .clip{width:100%;max-width:1180px;max-height:80vh;object-fit:contain;border-radius:14px;border:1px solid var(--border);background:#000;box-shadow:0 30px 80px rgba(0,0,0,.55)}
+  .video-slide .kicker{margin-bottom:0}
+  /* marco de navegador en los videos */
+  .browser{width:100%;max-width:1100px;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:var(--card);box-shadow:0 30px 80px rgba(0,0,0,.55)}
+  .browser .clip{display:block;width:100%;max-height:80vh;border:none;border-radius:0;box-shadow:none;margin:0}
+  .caption{display:flex;align-items:center;gap:14px;font-size:clamp(14px,1.4vw,18px);color:var(--muted)}
+  /* animaciones de entrada */
+  @keyframes riseIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+  .slide.active > *:not(.grid-bg):not(.aura){animation:riseIn .5s cubic-bezier(.2,.7,.3,1) both}
+  .slide.active > *:nth-child(3){animation-delay:.06s}
+  .slide.active > *:nth-child(4){animation-delay:.12s}
+  .slide.active > *:nth-child(5){animation-delay:.18s}
+  .slide.active > *:nth-child(6){animation-delay:.24s}
+  /* glow en titulos + auras flotantes */
+  .grad{filter:drop-shadow(0 0 22px rgba(36,168,245,.35))}
+  .hero-title{text-shadow:0 0 60px rgba(36,168,245,.15)}
+  @keyframes floatA{0%,100%{transform:translate(0,0)}50%{transform:translate(-30px,26px)}}
+  @keyframes floatB{0%,100%{transform:translate(0,0)}50%{transform:translate(28px,-22px)}}
+  .aura.a1{animation:floatA 15s ease-in-out infinite}
+  .aura.a2{animation:floatB 18s ease-in-out infinite}
+  /* indicadores de slide */
+  .dots{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:10}
+  .dots button{width:9px;height:9px;border-radius:50%;border:none;background:#2A3142;cursor:pointer;padding:0;transition:all .3s ease}
+  .dots button.on{background:var(--blue);box-shadow:0 0 10px var(--blue);width:22px;border-radius:6px}
+  @media (prefers-reduced-motion: reduce){
+    .slide.active > *{animation:none!important}
+    .aura{animation:none!important}
+  }
+</style>
+</head>
+<body>
+<div id="deck">
+
+  <!-- 1 PORTADA -->
+  <section class="slide active">
+    <div class="grid-bg"></div><div class="aura a1"></div><div class="aura a2"></div>
+    <div class="kicker">E-commerce de hardware · gaming</div>
+    <h1 class="hero-title">SHARKWARE<br><span class="grad">GAMING</span></h1>
+    <div class="tag">De la duda a la compra, en segundos.</div>
+  </section>
+
+  <!-- 2 EL PROBLEMA -->
+  <section class="slide">
+    <div class="grid-bg"></div><div class="aura a2"></div>
+    <div class="kicker">[ 01 ] El problema</div>
+    <p class="quote">Tiene el dinero.<br><span class="accent">No sabe qué comprar.</span><br><span class="strike">Se va.</span></p>
+    <p class="sub">La falta de conocimiento técnico es la barrera número uno entre un cliente y una venta concretada.</p>
+  </section>
+
+  <!-- CLIP A - CATALOGO -->
+  <section class="slide video-slide">
+    <div class="grid-bg"></div><div class="aura a2"></div>
+    <div class="kicker">[ clip ] Catálogo en acción</div>
+    <div class="browser">
+      <video class="clip" src="clip-a.mp4" muted playsinline preload="metadata" controls></video>
+    </div>
+    <div class="caption"><span class="pill-live"><span class="dot"></span>DEMO EN VIVO</span> Catálogo en tiempo real</div>
+  </section>
+
+  <!-- 3 EL DIFERENCIAL - BUILDER -->
+  <section class="slide">
+    <div class="grid-bg"></div><div class="aura a1"></div>
+    <div class="kicker">[ 02 ] El diferencial · Armador de PCs IA</div>
+    <h1 class="big">Le decís para qué.<br><span class="grad">Él te dice qué comprar.</span></h1>
+    <div class="mock">
+      <div class="bar"><i style="background:#EF4444"></i><i style="background:#F59E0B"></i><i style="background:#22C55E"></i></div>
+      <div class="line"><b>Procesador · AMD Ryzen 9 7900X</b><span class="price">$ 550.000</span></div>
+      <div class="line"><b>Placa de video · RTX 4070 12GB</b><span class="price">$ 700.000</span></div>
+      <div class="line"><b>Motherboard + RAM DDR5 32GB</b><span class="price">$ 410.000</span></div>
+      <div class="line"><b>Fuente · Gabinete · SSD · Cooler</b><span class="price">$ 405.000</span></div>
+      <div class="line"><b style="color:var(--blue)">Presupuesto $2.000.000</b><span class="badge-ok">✓ $ 2.065.000 · +$65.000</span></div>
+    </div>
+  </section>
+
+  <!-- CLIP B - BUILDER IA -->
+  <section class="slide video-slide">
+    <div class="grid-bg"></div><div class="aura a1"></div>
+    <div class="kicker">[ clip ] Armador de PCs IA — demo</div>
+    <div class="browser">
+      <video class="clip" src="clip-b.mp4" muted playsinline preload="metadata" controls></video>
+    </div>
+    <div class="caption"><span class="pill-live"><span class="dot"></span>DEMO EN VIVO</span> Armador de PCs IA</div>
+  </section>
+
+  <!-- 4 ATENCION 24/7 -->
+  <section class="slide">
+    <div class="grid-bg"></div><div class="aura a2"></div>
+    <div class="kicker">[ 03 ] Atención al cliente</div>
+    <h1 class="big">Atención <span class="grad">24/7</span>.<br>Sin equipo de soporte extra.</h1>
+    <div class="row">
+      <div class="chip"><span class="ico">💬</span> Chatbot sobre el catálogo real</div>
+      <div class="chip"><span class="ico">✉️</span> Email IA que responde solo</div>
+    </div>
+    <p class="sub">De noche, un domingo, un feriado — el cliente recibe una respuesta en segundos.</p>
+  </section>
+
+  <!-- CLIP C - CHATBOT FAQ -->
+  <section class="slide video-slide">
+    <div class="grid-bg"></div><div class="aura a2"></div>
+    <div class="kicker">[ clip ] Chatbot sobre el catálogo</div>
+    <div class="browser">
+      <video class="clip" src="clip-c.mp4" muted playsinline preload="metadata" controls></video>
+    </div>
+    <div class="caption"><span class="pill-live"><span class="dot"></span>DEMO EN VIVO</span> Chatbot sobre el catálogo</div>
+  </section>
+
+  <!-- CLIP D - EMAIL IA -->
+  <section class="slide video-slide">
+    <div class="grid-bg"></div><div class="aura a1"></div>
+    <div class="kicker">[ clip ] Email IA — respuesta automática</div>
+    <div class="browser">
+      <video class="clip" src="clip-d.mp4" muted playsinline preload="metadata" controls></video>
+    </div>
+    <div class="caption"><span class="pill-live"><span class="dot"></span>DEMO EN VIVO</span> Email IA — respuesta automática</div>
+  </section>
+
+  <!-- 5 COMPRA Y GESTION -->
+  <section class="slide">
+    <div class="grid-bg"></div><div class="aura a1"></div>
+    <div class="kicker">[ 04 ] Compra y gestión</div>
+    <h1 class="big">Del carrito al pago.<br><span class="grad">Y el negocio, en control.</span></h1>
+    <div class="row">
+      <div class="chip"><span class="ico">💳</span> Pago real con MercadoPago</div>
+      <div class="chip"><span class="ico">📊</span> Panel admin · stock y métricas</div>
+      <div class="chip"><span class="ico">₿</span> Conversor cripto en vivo</div>
+    </div>
+  </section>
+
+  <!-- CLIP E - CHECKOUT MERCADOPAGO -->
+  <section class="slide video-slide">
+    <div class="grid-bg"></div><div class="aura a2"></div>
+    <div class="kicker">[ clip ] Checkout con MercadoPago</div>
+    <div class="browser">
+      <video class="clip" src="clip-e.mp4" muted playsinline preload="metadata" controls></video>
+    </div>
+    <div class="caption"><span class="pill-live"><span class="dot"></span>DEMO EN VIVO</span> Pago real con MercadoPago</div>
+  </section>
+
+  <!-- CLIP F - PANEL ADMIN -->
+  <section class="slide video-slide">
+    <div class="grid-bg"></div><div class="aura a1"></div>
+    <div class="kicker">[ clip ] Panel de administración</div>
+    <div class="browser">
+      <video class="clip" src="clip-f.mp4" muted playsinline preload="metadata" controls></video>
+    </div>
+    <div class="caption"><span class="pill-live"><span class="dot"></span>DEMO EN VIVO</span> Panel de administración</div>
+  </section>
+
+  <!-- CLIP G - CONVERSOR CRIPTO -->
+  <section class="slide video-slide">
+    <div class="grid-bg"></div><div class="aura a2"></div>
+    <div class="kicker">[ clip ] Conversor cripto en vivo</div>
+    <div class="browser">
+      <video class="clip" src="clip-g.mp4" muted playsinline preload="metadata" controls></video>
+    </div>
+    <div class="caption"><span class="pill-live"><span class="dot"></span>DEMO EN VIVO</span> Conversor cripto en vivo</div>
+  </section>
+
+  <!-- 6 EL IMPACTO -->
+  <section class="slide">
+    <div class="grid-bg"></div><div class="aura a2"></div>
+    <div class="kicker">[ 05 ] El impacto</div>
+    <p class="quote">Más clientes orientados<br><span class="accent2">= más ventas concretadas.</span></p>
+    <div class="stats">
+      <div class="s"><div class="num">24/7</div><small>atención sin escalar el equipo</small></div>
+      <div class="s"><div class="num">~30s</div><small>de la duda a una build lista</small></div>
+      <div class="s"><div class="num">100%</div><small>componentes con stock y precio real</small></div>
+    </div>
+  </section>
+
+  <!-- 7 CIERRE -->
+  <section class="slide">
+    <div class="grid-bg"></div><div class="aura a1"></div><div class="aura a2"></div>
+    <div class="kicker">Cierre</div>
+    <h1 class="big">No es solo una tienda.<br><span class="grad">Es una plataforma que vende sola.</span></h1>
+    <div class="team">
+      <span><b>Equipo Sharkware</b></span>
+      <span>Franco Champane</span><span>Agustín Mondati</span><span>Lucca Goria</span><span>Tomás Lombardo</span>
+    </div>
+  </section>
+
+</div>
+
+<div class="progress" id="progress"></div>
+<div class="dots" id="dots"></div>
+<div class="hint">← → para navegar · F pantalla completa</div>
+
+<script>
+  const slides=[...document.querySelectorAll('.slide')];
+  let i=0;
+  const dotsWrap=document.getElementById('dots');
+  slides.forEach((_,k)=>{const b=document.createElement('button');b.addEventListener('click',()=>show(k));dotsWrap.appendChild(b);});
+  const dots=[...dotsWrap.children];
+  function show(n){
+    i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach(s=>{const v=s.querySelector('video');if(v){v.pause();v.currentTime=0;}});
+    slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+    const av=slides[i].querySelector('video');if(av)av.play().catch(()=>{});
+    dots.forEach((d,k)=>d.classList.toggle('on',k===i));
+    document.getElementById('progress').style.width=((i+1)/slides.length*100)+'%';
+  }
+  document.addEventListener('keydown',e=>{
+    if(['ArrowRight','ArrowDown',' ','PageDown'].includes(e.key)){e.preventDefault();show(i+1);}
+    else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();show(i-1);}
+    else if(e.key==='Home'){show(0);}else if(e.key==='End'){show(slides.length-1);}
+    else if(e.key.toLowerCase()==='f'){const d=document.documentElement;document.fullscreenElement?document.exitFullscreen():d.requestFullscreen();}
+  });
+  document.addEventListener('click',e=>{if(e.target.closest('video'))return;if(e.clientX>window.innerWidth*0.5)show(i+1);else show(i-1);});
+  show(0);
+</script>
+</body>
+</html>
