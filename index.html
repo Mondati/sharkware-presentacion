@@ -302,7 +302,8 @@
   const ctrlMute=document.getElementById('ctrlMute');
   const bgm=document.getElementById('bgm');
   const BGM_DUCK=0.08, BGM_FULL=0.20;
-  let i=0, playing=false, muted=false, advCancel=null;
+  const SLIDE_AUDIO_DELAY=1000; // ms de espera entre que aparece la slide y arranca la narración
+  let i=0, playing=false, muted=false, advCancel=null, startTimer=null;
 
   function bgmTick(){
     if(!playing || bgm.paused) return;
@@ -324,6 +325,7 @@
     });
   }
   function clearAdv(){ if(advCancel){advCancel();advCancel=null;} }
+  function clearStart(){ if(startTimer){clearTimeout(startTimer);startTimer=null;} }
 
   function armAdvance(s,v,a){
     clearAdv();
@@ -352,6 +354,7 @@
   function show(n){
     i=Math.max(0,Math.min(slides.length-1,n));
     clearAdv();
+    clearStart();
     stopMedia();
     slides.forEach((s,k)=>s.classList.toggle('active',k===i));
     dots.forEach((d,k)=>d.classList.toggle('on',k===i));
@@ -359,8 +362,10 @@
     const s=slides[i], v=s.querySelector('video'), a=s.querySelector('audio');
     if(v) v.play().catch(()=>{});
     if(playing){
-      if(a && a.getAttribute('src')){ a.muted=muted; a.play().catch(()=>{}); }
-      armAdvance(s,v,a);
+      startTimer=setTimeout(()=>{
+        if(a && a.getAttribute('src')){ a.muted=muted; a.play().catch(()=>{}); }
+        armAdvance(s,v,a);
+      }, SLIDE_AUDIO_DELAY);
     }
   }
 
@@ -394,6 +399,7 @@
       armAdvance(s,v,a);
     } else {
       clearAdv();
+      clearStart();
       if(v) v.pause();
       if(a) a.pause();
       bgm.pause();

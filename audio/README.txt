@@ -67,7 +67,7 @@ sumar gente al equipo de soporte, por dos vías: un chatbot y un email con IA."
 
 
 ============================================================
-SECCIÓN 7 — CHATBOT (VIDEO)                   [ slide-07.mp3 ]  (clip ~55s)
+SECCIÓN 7 — CHATBOT (VIDEO)                   [ slide-07.mp3 ]  (clip ~28s)
 ============================================================
 "El chatbot responde dudas sobre cualquier producto del catálogo en tiempo real.
 Le preguntamos por compatibilidades, comparaciones y specs, y responde al
