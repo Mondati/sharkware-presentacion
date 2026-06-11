@@ -132,3 +132,24 @@ SECCIÓN 14 — CIERRE                           [ slide-14.mp3 ]  (~10s)
 "Sharkware no es solo una tienda online: es una plataforma que convierte la
 confusión técnica en ventas. Y eso funciona para cualquier rubro donde el
 cliente necesita orientación para comprar. Gracias."
+
+
+============================================================
+MÚSICA DE FONDO  ->  bgm.mp3
+============================================================
+Dejá en esta carpeta un archivo llamado EXACTO: bgm.mp3
+
+- Que sea un track CHILL / lo-fi, instrumental, LIBRE DE DERECHOS
+  (importante si después subís el video a YouTube).
+- Suena bajito de fondo todo el tiempo y SUBE solo en los tramos donde no hay
+  narración (para que no haya silencio en los clips largos). No hace falta que
+  sea cortito: se reproduce en loop.
+
+Fuentes gratis recomendadas:
+  - YouTube Audio Library (studio.youtube.com -> Biblioteca de audio)
+  - Pixabay Music (pixabay.com/music) — sin atribución
+  - Chosic (chosic.com/free-music)
+  - Incompetech (incompetech.com) — pide atribución
+
+Cuando lo dejes, avisá y se normaliza solo a un nivel bajo (~-23 LUFS) para que
+nunca tape al narrador.

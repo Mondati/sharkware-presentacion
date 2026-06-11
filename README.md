@@ -26,6 +26,15 @@ Grabá un audio por slide y dejalo en `audio/` con los nombres `slide-01.mp3` �
 (listo para pasarle a quien graba). Si falta algún audio, esa slide usa un tiempo por
 defecto y no se rompe.
 
+### Música de fondo
+Dejá un track chill/lo-fi **libre de derechos** en `audio/bgm.mp3`. Suena bajo durante toda
+la presentación y **sube solo** en los tramos sin narración (rellena el silencio de los clips
+largos) gracias a un *ducking* automático. El botón de mute y la pausa también la afectan.
+Fuentes: YouTube Audio Library, Pixabay Music, Chosic, Incompetech.
+
+### Transiciones
+El cambio entre slides es un **crossfade** suave; cada slide entra con un leve fade + subida.
+
 ## Exportar a un video MP4 (grabando la pantalla)
 Como la narración ya está en la página, no hace falta micrófono al grabar: alcanza con
 capturar pantalla + audio del sistema.

@@ -18,10 +18,11 @@
   #deck{height:100vh;width:100vw;position:relative}
   audio{display:none}
   .slide{
-    position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;
-    padding:clamp(40px,7vw,140px);opacity:0;transition:opacity .35s ease;
+    position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;
+    padding:clamp(40px,7vw,140px);opacity:0;visibility:hidden;pointer-events:none;
+    transition:opacity .4s ease, visibility 0s linear .4s;
   }
-  .slide.active{display:flex;opacity:1}
+  .slide.active{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .4s ease, visibility 0s}
   .grid-bg{position:absolute;inset:0;pointer-events:none;
     background-image:linear-gradient(rgba(36,168,245,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(36,168,245,.05) 1px,transparent 1px);
     background-size:48px 48px;mask-image:radial-gradient(ellipse 80% 70% at 50% 45%,#000 30%,transparent 80%);}
@@ -99,6 +100,7 @@
   @media (prefers-reduced-motion: reduce){
     .slide.active > *{animation:none!important}
     .aura{animation:none!important}
+    .slide{transition:none!important}
   }
 </style>
 </head>
@@ -284,6 +286,8 @@
   <button id="ctrlMute" title="Silenciar (M)">🔊</button>
 </div>
 
+<audio id="bgm" src="audio/bgm.mp3" loop preload="auto"></audio>
+
 <div class="progress" id="progress"></div>
 <div class="dots" id="dots"></div>
 <div class="hint">← → navegar · espacio play/pausa · F pantalla completa</div>
@@ -296,7 +300,19 @@
   const controls=document.getElementById('controls');
   const ctrlPlay=document.getElementById('ctrlPlay');
   const ctrlMute=document.getElementById('ctrlMute');
+  const bgm=document.getElementById('bgm');
+  const BGM_DUCK=0.08, BGM_FULL=0.20;
   let i=0, playing=false, muted=false, advCancel=null;
+
+  function bgmTick(){
+    if(!playing || bgm.paused) return;
+    const a=slides[i].querySelector('audio');
+    const voice = a && !a.paused && !a.ended && !a.error && a.currentTime>0.05 &&
+                  (!isFinite(a.duration) || a.currentTime < a.duration-0.05);
+    const target = voice ? BGM_DUCK : BGM_FULL;
+    bgm.volume = Math.max(0, Math.min(1, bgm.volume + (target-bgm.volume)*0.3));
+  }
+  setInterval(bgmTick, 250);
 
   slides.forEach((_,k)=>{const b=document.createElement('button');b.addEventListener('click',()=>show(k));dotsWrap.appendChild(b);});
   const dots=[...dotsWrap.children];
@@ -348,12 +364,18 @@
     }
   }
 
-  function next(){ if(i<slides.length-1) show(i+1); else { playing=false; updateCtrl(); } }
+  function next(){
+    if(i<slides.length-1) show(i+1);
+    else { playing=false; updateCtrl(); clearAdv();
+      const fade=setInterval(()=>{ bgm.volume=Math.max(0,bgm.volume-0.04); if(bgm.volume<=0.001){bgm.pause();clearInterval(fade);} },120);
+    }
+  }
 
   function startShow(){
     intro.classList.add('hidden');
     controls.classList.remove('hidden');
     playing=true; updateCtrl();
+    bgm.muted=muted; bgm.volume=BGM_FULL; bgm.play().catch(()=>{});
     show(0);
   }
   function goManual(){
@@ -368,17 +390,20 @@
     if(playing){
       if(v) v.play().catch(()=>{});
       if(a && a.getAttribute('src')){ a.muted=muted; a.play().catch(()=>{}); }
+      bgm.muted=muted; bgm.play().catch(()=>{});
       armAdvance(s,v,a);
     } else {
       clearAdv();
       if(v) v.pause();
       if(a) a.pause();
+      bgm.pause();
     }
     updateCtrl();
   }
   function toggleMute(){
     muted=!muted;
     slides.forEach(s=>{const a=s.querySelector('audio');if(a)a.muted=muted;});
+    bgm.muted=muted;
     updateCtrl();
   }
   function updateCtrl(){
