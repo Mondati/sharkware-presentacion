@@ -435,7 +435,7 @@
   });
   document.addEventListener('click',e=>{
     if(!intro.classList.contains('hidden')) return;
-    if(e.target.closest('video')||e.target.closest('#controls')) return;
+    if(e.target.closest('video')||e.target.closest('#controls')||e.target.closest('#intro')) return;
     if(e.clientX>window.innerWidth*0.5)show(i+1);else show(i-1);
   });
 
